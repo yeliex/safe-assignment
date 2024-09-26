@@ -1,0 +1,6 @@
+{
+    "extends": ["@tsconfig/strictest", "@tsconfig/node18"],
+    "compileOnSave": false,
+    "compilerOptions": {},
+    "include": ["src/**/*.ts", "test/**/*.ts"]
+}
