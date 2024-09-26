@@ -2,15 +2,35 @@
   "name": "safe-assignment",
   "version": "0.0.0",
   "description": "Error Safe Assignment alternative for JS/TS, a simple way to remove try/catch hell\n\n",
-  "main": "index.js",
+  "main": "./dist/index.mjs",
+  "type": "module",
   "scripts": {
     "build": "pkgroll --clean-dist",
     "test:unit": "tsx --test",
     "test:type": "tsc --noEmit",
     "test": "pnpm run \"/^test:.*/\"",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build",
+    "prepare": "husky"
   },
-  "keywords": ["try", "catch", "try-catch", "safe-assinment", "safe assignment", "error-handler"],
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "keywords": [
+    "try",
+    "catch",
+    "try-catch",
+    "safe-assinment",
+    "safe assignment",
+    "error-handler"
+  ],
   "author": "yeliex <yeliex@yeliex.com>",
   "license": "MIT",
   "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c",
@@ -18,8 +38,13 @@
     "@changesets/cli": "^2.27.8",
     "@tsconfig/node18": "^18.2.4",
     "@tsconfig/strictest": "^2.0.5",
+    "@types/node": "^18.19.53",
+    "husky": "^9.1.6",
     "pkgroll": "^2.5.0",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
