@@ -1,6 +1,6 @@
 {
   "name": "safe-assignment",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Error Safe Assignment alternative for JS/TS, a simple way to remove try/catch hell\n\n",
   "main": "./dist/index.mjs",
   "type": "module",
