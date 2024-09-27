@@ -1,5 +1,11 @@
 # safe-assignment
 
+## 0.1.2
+
+### Patch Changes
+
+- 4aec56d: feat: update type to narrow return
+
 ## 0.1.1
 
 ### Patch Changes
