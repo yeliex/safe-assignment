@@ -31,9 +31,14 @@ A utility function that wraps a function or promise in a try-catch block.
 ##### Returns
 A tuple containing an error or undefined and the result of the function or promise.
 
-- When the input is a function, the function is executed and the result is returned.
+- When the input is a function, return a wrapped function, which accept the same parameters as the original function, and will return the tuple.
+  - if the input function is asynchronous, the wrapped function will return a promise as well.
 - When the input is a promise, the promise is awaited and the result is returned.
 - When the input is neither a function nor a promise, the input is returned, the error always undefined.
+  - so it`s possible to pass `undefined` or `null` as input, for example, the optional chaining operator `?.`
+
+##### Limitations
+- if the input function should not implicit returns `any`, it messed up the type inference, so it`s better to define the return type explicitly.
 
 ```typescript
 import { safeTry } from 'safe-assignment';
@@ -44,10 +49,10 @@ safeTry(() => 42)(); // Output: [undefined, 42]
 // Synchronous function with error
 safeTry(() => {
     throw new Error('sync error');
-})(); // Output: ['sync error', undefined]
+})(); // Output: [Error('sync error'), undefined]
 
 // define error type generic
-safeTry<Error>(Promise.reject(new Error('xxx'))) // Output: [Error, undefined]
+safeTry<Error>(Promise.reject(new Error('xxx'))) // Output: [Error('xxx), undefined]
 
 // Asynchronous function
 await safeTry(async () => 42)(); // Output: [undefined, 42]
@@ -55,13 +60,16 @@ await safeTry(async () => 42)(); // Output: [undefined, 42]
 // Asynchronous function with error
 await safeTry(async () => {
     throw new Error('async error');
-})(); // Output: ['async error', undefined]
+})(); // Output: [Error('async error'), undefined]
 
 // Promise
 const [promiseError, promiseResult] = await safeTry(Promise.resolve(42)); // Output: [undefined, 42]
 
 // Promise with error
-const [promiseError2, promiseResult2] = await safeTry(Promise.reject(new Error('promise error'))); // Output: ['promise error', undefined]
+const [promiseError2, promiseResult2] = await safeTry(Promise.reject(new Error('promise error'))); // Output: [Error('promise error'), undefined]
+
+// input optional
+const [,optionalResult] = await safeTry(preResult?.run()); // Output: [Error?, undefined | Result]
 ```
 
 ## Examples
