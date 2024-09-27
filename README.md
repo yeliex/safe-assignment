@@ -31,6 +31,8 @@ A utility function that wraps a function or promise in a try-catch block.
 ##### Returns
 A tuple containing an error or undefined and the result of the function or promise.
 
+One of the error or data would be undefined, and the other would be the result or error, so **undefined detection** is necessary to narrow the type, or use optional chaining operator `?.` to avoid runtime error.
+
 - When the input is a function, return a wrapped function, which accept the same parameters as the original function, and will return the tuple.
   - if the input function is asynchronous, the wrapped function will return a promise as well.
 - When the input is a promise, the promise is awaited and the result is returned.
@@ -117,3 +119,8 @@ if (fetchError) {
 }
 
 return result;
+
+// or if want to ignore error
+const [, result2] = await safeTry(fetch(data));
+result2 && console.log(result2); // undefined detection of error or result is necessary to narrow type
+```

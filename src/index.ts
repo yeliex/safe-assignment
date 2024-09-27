@@ -1,6 +1,6 @@
 type ValueReturn<Input, Error = unknown> = Input extends Promise<any>
-    ? Promise<[Error | undefined, Awaited<Input>]>
-    : [Error | undefined, Input]
+    ? Promise<readonly [NonNullable<Error>, undefined] | readonly [undefined, Awaited<Input>]>
+    : readonly [NonNullable<Error>, undefined] | readonly [undefined, Input]
 
 type FunctionReturn<Input extends (...args: any[]) => unknown, Error = unknown> = (...args: Parameters<Input>) => ValueReturn<ReturnType<Input>, Error>;
 
