@@ -2,10 +2,6 @@ import * as assert from 'node:assert';
 import { describe, test } from 'node:test';
 import { safeTry } from './index.ts';
 
-const fixtures = {
-    error: new Error('test error'),
-};
-
 describe('safeTry with value', () => {
     test('should return value', () => {
         const [error, data] = safeTry(42);
@@ -29,25 +25,66 @@ describe('safeTry with value', () => {
     });
 
     test('should handle value as Error', () => {
-        const [error, data] = safeTry(fixtures.error);
+        const fixture = new Error('test error');
+        const [error, data] = safeTry(fixture);
 
         assert.strictEqual(error, undefined);
-        assert.strictEqual(data, fixtures.error);
+        assert.strictEqual(data, fixture);
     });
 });
 
 describe('safeTry with promise value', () => {
     test('should handle Error', async () => {
-        const [error, data] = await safeTry(Promise.reject(fixtures.error));
+        const fixture = new Error('test error');
 
-        assert.strictEqual(error, fixtures.error);
+        const [error, data] = await safeTry(Promise.reject(fixture));
+
+        assert.strictEqual(error, fixture);
         assert.strictEqual(data, undefined);
     });
 
-    test('should handle any Error', async () => {
-        const [error, data] = await safeTry(Promise.reject(fixtures.error.message));
+    test('should handle Error as string', async () => {
+        const fixture = 'text error message';
 
-        assert.strictEqual(error, fixtures.error.message);
+        const [error, data] = await safeTry(Promise.reject(fixture));
+
+        assert.strictEqual(error, fixture);
+        assert.strictEqual(data, undefined);
+    });
+
+    test('should handle Error as object', async () => {
+        const fixture = { message: 'text error message' };
+
+        const [error, data] = await safeTry(Promise.reject(fixture));
+
+        assert.strictEqual(error, fixture);
+        assert.strictEqual(data, undefined);
+    });
+
+    test('should handle Error as number', async () => {
+        const fixture = 42;
+
+        const [error, data] = await safeTry(Promise.reject(fixture));
+
+        assert.strictEqual(error, fixture);
+        assert.strictEqual(data, undefined);
+    });
+
+    test('should handle Error as boolean', async () => {
+        const fixture = true;
+
+        const [error, data] = await safeTry(Promise.reject(fixture));
+
+        assert.strictEqual(error, fixture);
+        assert.strictEqual(data, undefined);
+    });
+
+    test('should handle Error as null', async () => {
+        const fixture = null;
+
+        const [error, data] = await safeTry(Promise.reject(fixture));
+
+        assert.strictEqual(error, fixture);
         assert.strictEqual(data, undefined);
     });
 
@@ -75,11 +112,13 @@ describe('safeTry with promise value', () => {
 
 describe('safeTry with sync function value', () => {
     test('should handle exception', () => {
+        const fixture = new Error('test error');
+
         const [error, data] = safeTry((): number => {
-            throw fixtures.error;
+            throw fixture;
         })();
 
-        assert.strictEqual(error, fixtures.error);
+        assert.strictEqual(error, fixture);
         assert.strictEqual(data, undefined);
     });
 
@@ -107,11 +146,13 @@ describe('safeTry with sync function value', () => {
 
 describe('safeTry with async function value', () => {
     test('should handle Error', async () => {
+        const fixture = new Error('test error');
+
         const [error, data] = await safeTry(async (): Promise<number> => {
-            throw fixtures.error;
+            throw fixture;
         })();
 
-        assert.strictEqual(error, fixtures.error);
+        assert.strictEqual(error, fixture);
         assert.strictEqual(data, undefined);
     });
 

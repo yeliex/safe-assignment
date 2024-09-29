@@ -1,8 +1,15 @@
-type ValueReturn<Input, Error = unknown> = Input extends Promise<any>
-    ? Promise<readonly [NonNullable<Error>, undefined] | readonly [undefined, Awaited<Input>]>
-    : readonly [NonNullable<Error>, undefined] | readonly [undefined, Input]
+type ReturnTuple<Input, Error> = readonly [NonNullable<Error>, undefined] | readonly [undefined, Input];
 
-type FunctionReturn<Input extends (...args: any[]) => unknown, Error = unknown> = (...args: Parameters<Input>) => ValueReturn<ReturnType<Input>, Error>;
+type ValueReturn<Input, Error = unknown> = Input extends Promise<any>
+    ? Promise<ReturnTuple<Input, Error>>
+    : ReturnTuple<Input, Error>
+
+type FunctionReturn<Input extends (...args: any[]) => unknown, Error = unknown> = (...args: Parameters<Input>) =>
+    Input extends (...args: any[]) => never
+        ? ReturnTuple<undefined, Error>
+        : Input extends (...args: any[]) => Promise<never>
+            ? Promise<ReturnTuple<undefined, Error>>
+            : ValueReturn<ReturnType<Input>, Error>;
 
 type SafeReturn<Input, Error = unknown> = Input extends (...args: any[]) => unknown
     ? FunctionReturn<Input, Error>
