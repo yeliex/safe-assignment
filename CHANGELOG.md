@@ -1,5 +1,11 @@
 # safe-assignment
 
+## 0.1.3
+
+### Patch Changes
+
+- b82c4e6: feat: supprot type for functions which only throw exception
+
 ## 0.1.2
 
 ### Patch Changes
