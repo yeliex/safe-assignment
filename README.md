@@ -1,11 +1,20 @@
 # safe-assignment
 
+![NPM Version](https://img.shields.io/npm/v/safe-assignment)
+
 Error Safe Assignment alternative for JS/TS, a simple way to remove try/catch hell
 
 ## Why
 The [ECMAScript Safe Assignment Operator Proposal](https://github.com/arthurfiorette/proposal-safe-assignment-operator) is to add a new operator to JavaScript that would allow for safe assignment of values, removing the need for try-catch blocks in many cases.
 
 Since it is in a very early stage and not yet implemented in any JavaScript engine, this package provides a simple utility function that wraps a function or promise in a try-catch block, returning a tuple containing an error or undefined and the result of the function or promise.
+
+## Status
+The library is an experimental utility to provide a simple way to remove try-catch hell, and in a very early stage, so the API may change in the future.
+
+Currently it should be safe for production use, but we recommend using it with caution, and postpone using it in critical projects or business project until it is more stable.
+
+Hobby projects, side projects, and small projects are good candidates for using this library.
 
 ## Installation
 
