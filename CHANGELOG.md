@@ -1,5 +1,11 @@
 # safe-assignment
 
+## 0.1.4
+
+### Patch Changes
+
+- 5249728: fix: fix type when input as promise value
+
 ## 0.1.3
 
 ### Patch Changes
