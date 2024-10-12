@@ -1,7 +1,7 @@
 type ReturnTuple<Input, Error> = readonly [NonNullable<Error>, undefined] | readonly [undefined, Input];
 
 type ValueReturn<Input, Error = unknown> = Input extends Promise<any>
-    ? Promise<ReturnTuple<Input, Error>>
+    ? Promise<ReturnTuple<Awaited<Input>, Error>>
     : ReturnTuple<Input, Error>
 
 type FunctionReturn<Input extends (...args: any[]) => unknown, Error = unknown> = (...args: Parameters<Input>) =>
